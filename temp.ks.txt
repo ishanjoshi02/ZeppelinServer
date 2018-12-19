@@ -1,0 +1,139 @@
+
+        $(document).ready(function(){
+            setTimeout(function() {
+                $('#Alert_msg').fadeOut('fast');
+}, 3000); 
+});
+
+ function CancelEvent() {
+            var e = window.event;
+            //e.cancelBubble is supported by IE
+            e.cancelBubble = true;
+            e.returnValue = false;
+            //e.stopPropagation works only in Firefox.
+            if (e.stopPropagation) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+        }
+
+        //Disable the click event of form 
+        $(document).keypress(function (e) {
+            //Check which key is pressed on the document or window
+            if (e.which == 13) {
+                // if it is 13 that means enter key pressed, then call the function to cancel the event
+                CancelEvent();
+            }
+        });
+
+
+          $(document).ready(function(){
+                     $.ajaxSetup({
+               
+                       headers: {
+               
+                       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+               
+                       }
+               
+                       });
+            var frm = $('#logo_upload_form');
+
+            frm.submit(function (e) {
+                
+                var formData = new FormData($(this)[0]);
+               
+                 var file = document.querySelector("#logo");
+                if(file.files[0]==undefined){
+                        $('#upload_msg').css('color', 'red');
+                         document.getElementById("upload_msg").innerHTML ='Select An Image';
+                            setTimeout(function() {
+                               
+                            }, 3000); 
+                } else{
+
+                     fileSize =file.files[0].size //size in kb
+                        fileSize = fileSize / 1048576; //size in mb 
+
+                    if ( /\.(jpe?g|png|PNG|JPG|JPEG)$/i.test(file.files[0].name) === false ) { 
+                        $('#upload_msg').css('color', 'red');
+                         document.getElementById("upload_msg").innerHTML ='Invalid Image Type';
+                            setTimeout(function() {
+                                document.getElementById("upload_msg").innerHTML ="";
+                            }, 2000); 
+                    }
+
+                    else{
+
+                         if(fileSize>5 ){
+                            $('#upload_msg').css('color', 'red');
+                        document.getElementById("upload_msg").innerHTML ='File size exceeds the limit';
+                            setTimeout(function() {
+                                document.getElementById("upload_msg").innerHTML ="";
+                            }, 2000); 
+                    }
+                    else{
+                        $("#submit_button").hide();
+                                $.ajax({
+                                url: "https://www.sih.gov.in/upload_logo",
+                                data:formData,
+                                dataType:'json',
+                                type:'post',
+                                processData: false,
+                                contentType: false,
+                                success: function (data) {
+                                    if(data.msg=="Successfully Uploaded"){
+                                        $('#upload_msg').css('color', 'green');
+                                        $("#submit_button").hide();
+                                        $('#logo_upload_form')[0].reset();
+                            document.getElementById("upload_msg").innerHTML =data.msg;
+                            $('#logo_image').attr('src',data.Full_image);
+                            $('#thumnail_image').attr('src',data.Full_image);
+                            
+                            setTimeout(function() {
+                               
+                            }, 2000); 
+                                    }
+
+                                    else{
+                                        $("#submit_button").show();
+                                        $('#upload_msg').css('color', 'red');
+                            document.getElementById("upload_msg").innerHTML =data.msg;
+                            setTimeout(function() {
+                               
+                            }, 2000); 
+                                    }
+
+                          
+                                },
+                                error: function (data) {
+                               
+                                },
+                                });
+
+                    }
+
+                       
+                        
+                        }
+                }
+               
+                e.preventDefault();       
+         });
+  
+               });
+
+               function showlogoUploadSubmitButton(){
+                $("#submit_button").show();
+                $('#logo_upload_form')[0].reset();
+                document.getElementById("upload_msg").innerHTML ="";
+               }
+
+               function  gotoStatement_comment(id){
+                var url="https://www.sih.gov.in/edit_problem_statement/"+id;
+                var win = window.open(url, '_self');
+                win.focus();
+            }
+
+            
+        
