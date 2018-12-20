@@ -29,6 +29,8 @@ contract Customer {
 
     function login(string memory _passwordHash) public view returns (User memory) {
         if (keccak256(bytes(_passwordHash)) == keccak256(bytes(Users[msg.sender].passwordHash))) {
+            //TODO: 
+            //Return user data instead of struct
             return Users[msg.sender];
         }
         else {}
