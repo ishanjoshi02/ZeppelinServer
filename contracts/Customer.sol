@@ -30,17 +30,9 @@ contract Customer {
         count += 1;
     }
 
-<<<<<<< HEAD
-    function login(string memory _passwordHash) public view returns (User memory) {
-        if (keccak256(bytes(_passwordHash)) == keccak256(bytes(Users[msg.sender].passwordHash))) {
-            //TODO: 
-            //Return user data instead of struct
-            return Users[msg.sender];
-=======
     function login(string memory _passwordHash) public view returns (string memory) {
         if (compareStrings(_passwordHash, Users[msg.sender].passwordHash)) {
             return "Logged In";
->>>>>>> 699b656795319d6802ddf2d6ac7626112afb3f8e
         }
         return "Login Failed";
 
