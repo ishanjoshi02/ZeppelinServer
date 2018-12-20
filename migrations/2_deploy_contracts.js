@@ -8,7 +8,9 @@
 // };
 
 let Customer = artifacts.require("./Customer.sol");
+let RequestData = artifacts.require("./RequestData.sol");
 
 module.exports = deployer => {
   deployer.deploy(Customer);
+  deployer.deploy(RequestData);
 };

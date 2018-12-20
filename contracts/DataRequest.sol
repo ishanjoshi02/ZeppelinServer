@@ -20,18 +20,22 @@ contract RequestData {
         dataStores["ds1"] = 1;
         dataStores["ds2"] = 2;
     }
-
+ 
     function requestDataFromOwner(string memory data) public {
         emit requestDataOwner(msg.sender, data);
     }
 
-    function acceptRequestAndFowrward(bool decision, string memory data)  public {
-        if (decision == true) {
+    function acceptRequestAndForward(bool decision, string memory data) public {
+        if (decision) {
             emit requestDataStore(msg.sender, data);    
         }
         else {
             emit requestDenied();
         }
+    }
+
+    function denyRequest() public {
+        emit requestDenied();
     }
 
 }

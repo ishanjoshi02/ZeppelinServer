@@ -1,6 +1,6 @@
 //solium-disable linebreak-style
 pragma solidity ^0.5.0;
-// pragma experimental ABIEncoderV2;
+pragma experimental ABIEncoderV2;
 
 contract Customer {
     string name;
@@ -30,11 +30,10 @@ contract Customer {
         count += 1;
     }
 
-    function login(string memory _passwordHash) public view returns (string memory) {
+    function login(string memory _passwordHash) public view returns (string memory, string memory) {
         if (compareStrings(_passwordHash, Users[msg.sender].passwordHash)) {
-            return "Logged In";
+            return (Users[msg.sender].username,Users[msg.sender].name);
         }
-        return "Login Failed";
 
     }
 
