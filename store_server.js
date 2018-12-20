@@ -7,6 +7,11 @@ const truffle_request_data_connect = require("./connection/data_request_app.js")
 bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// TODO: Return "Yes/No"
+// TODO: Return Actual Data
+// TODO: Return IPFS Hash
+
 app.listen(port, () => {
   truffle_request_data_connect.setWeb3(
     new Web3(new Web3.providers.HttpProvider(`http://localhost:${7545}`))
