@@ -2,6 +2,9 @@ const contract = require("truffle-contract");
 
 const RequestDataArtifact = require("../build/contracts/RequestData.json");
 const RequestDataContract = contract(RequestDataArtifact);
+const axios = require("axios");
+
+const StoreAPI = require("../Store/index");
 
 module.exports = {
   setInstance: ({ account, type }) => {
@@ -16,9 +19,17 @@ module.exports = {
               if (err) {
                 console.error(err);
               } else {
-                // console.log(res.args.data);
-                console.log("Hi there");
+                const { qid, values } = JSON.parse(res.args.data);
+                console.log("Request Data Owner" + JSON.stringify(res));
+                // console.log(data);
                 // send axios request containin the data
+                console.log(qid);
+                axios
+                  .post("http://localhost:5000/accepted", { qid, values })
+                  .then(res => console.log(res))
+                  .catch(e => console.error(e));
+
+                //
               }
             });
             break;
@@ -39,6 +50,10 @@ module.exports = {
                 console.error(err);
               } else {
                 console.log("Got acceptance from user");
+                console.log(res.args.data);
+
+                // TODO: call the function according to the data
+                StoreAPI.solve(JSON.parse(res.args.data));
               }
             });
           }
@@ -50,7 +65,7 @@ module.exports = {
     RequestDataContract.setProvider(this.web3.currentProvider);
   },
   request: data => {
-    this.instance.requestDataFromOwner(data, {
+    this.instance.requestDataFromOwner(JSON.stringify(data), {
       from: "0x9b99Df0515830fabF1eeF93045239Bd729fdA67C",
       gas: 3000000
     });

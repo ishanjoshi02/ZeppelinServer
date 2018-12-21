@@ -1,9 +1,11 @@
 const express = require("express");
 const app = express();
 const port = 3000 || process.env.PORT;
+const GANACHE_PORT = 7545;
 const Web3 = require("web3");
 const truffle_customer_connect = require("./connection/customer_app.js");
 const truffle_request_data_connect = require("./connection/data_request_app.js");
+const truffle_response_data_connect = require("./connection/data_response_app");
 bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
@@ -41,5 +43,9 @@ app.listen(port, () => {
     account: "0x9b99Df0515830fabF1eeF93045239Bd729fdA67C",
     type: "consumer"
   });
+  truffle_response_data_connect.setWeb3(
+    new Web3(new Web3.providers.HttpProvider(`http://localhost:${7545}`))
+  );
+  truffle_response_data_connect.setInstance();
   console.log("Express Listening at http://localhost:" + port);
 });

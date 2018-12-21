@@ -9,8 +9,9 @@
 
 let Customer = artifacts.require("./Customer.sol");
 let RequestData = artifacts.require("./RequestData.sol");
-
+let ResponseChain = artifacts.require("./ResponseChain.sol");
 module.exports = deployer => {
   deployer.deploy(Customer);
   deployer.deploy(RequestData);
+  deployer.deploy(ResponseChain);
 };
