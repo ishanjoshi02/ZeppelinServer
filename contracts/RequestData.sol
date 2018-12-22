@@ -1,15 +1,14 @@
 pragma solidity ^0.5.0;
+pragma experimental ABIEncoderV2;
 
 contract RequestData {
 
-    struct Request {
+    struct Transaction {
         address dataOwner;
         address dataConsumer;
-        uint dataStore;
         string data;
     }
-    //mapping (string => )
-    Request[] requests;
+    Transaction[] txs;
     mapping (string => uint) dataStores; //replace uint with endpoint?
     
     event requestDataOwner(address dataConsumer, string data);
@@ -36,6 +35,31 @@ contract RequestData {
 
     function denyRequest() public {
         emit requestDenied();
+    }
+
+    function storeTransaction(address _dataOwner, address _dataConsumer, string memory _data)
+    public {
+        Transaction memory newTx;
+        newTx.dataOwner = _dataOwner;
+        newTx.dataConsumer = _dataConsumer;
+        newTx.data = _data;
+        txs.push(newTx);
+    }
+
+    function getTransactions(address owner)
+    public
+    view
+    returns (Transaction[] memory) {
+        Transaction[] memory myTxs;
+        uint c = 0;
+        for (uint i = 0 ; i<txs.length ; i++) {
+            if (txs[i].dataOwner == owner) {
+                myTxs[c] = txs[i];
+                c++;
+            }
+        }
+
+        return myTxs;
     }
 
 }
