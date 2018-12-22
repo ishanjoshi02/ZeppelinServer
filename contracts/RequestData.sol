@@ -1,5 +1,5 @@
 pragma solidity ^0.5.0;
-//pragma experimental ABIEncoderV2;
+pragma experimental ABIEncoderV2;
 
 contract RequestData {
 
@@ -46,7 +46,7 @@ contract RequestData {
         txs.push(newTx);
     }
 
-    function getTransactions(address _owner)
+    function getTransactions()
     public
     view
     returns (address[] memory, address[] memory, string[] memory) {
@@ -55,7 +55,7 @@ contract RequestData {
         string[] memory data;
         uint c = 0;
         for (uint i = 0 ; i<txs.length ; i++) {
-            if (txs[i].dataOwner == _owner) {
+            if (txs[i].dataOwner == msg.sender) {
                 owner[c] = txs[i].dataOwner;
                 consumer[c] = txs[i].dataConsumer;
                 data[c] = txs[i].data;

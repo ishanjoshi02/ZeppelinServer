@@ -27,6 +27,11 @@ app.post("/requestData", (req, res) => {
   truffle_request_data_connect.request(req.body);
   res.end();
 });
+app.get("/getTransactions", (req, res) => {
+  console.log(req.body);
+  truffle_request_data_connect.getTransactions(req.body);
+  res.end();
+});
 app.get("/usercount", (req, res) => {
   truffle_customer_connect.getUserCount();
   res.end();
