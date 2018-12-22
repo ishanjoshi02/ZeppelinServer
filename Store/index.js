@@ -5,10 +5,15 @@ const ipfsClient = require("ipfs-http-client");
 const ipfs = ipfsClient("localhost", "5001", { protocol: "http" });
 
 module.exports = {
-  solve: ({ qid, values }) => {
+  solve: ({ data }) => {
+    console.log("ME aloy");
+    console.log(data);
+    const { qid, values } = data;
     switch (qid) {
       case 1: {
+        console.log("me 1 madhe aloy");
         // Check if bank balance is above value.
+
         const { first_name, last_name, balance } = values;
         axios
           .get(`${URL}?first_name=${first_name}&last_name=${last_name}`)

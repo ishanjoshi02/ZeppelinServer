@@ -6,19 +6,28 @@ const IP_ADDRESS = "192.168.56.1";
 
 class OwnerHomePage extends Component {
   state = {
-    permissions: []
+    permissions: [],
+    endpoint: `http://${IP_ADDRESS}:8001`,
+    qid: null,
+    values: null,
+    dataStore: null,
+    requestComponent: null
   };
 
   render() {
     const socket = socketIOClient(this.state.endpoint);
-    socket.on("permission", permission => {
-      console.log(permission);
+    socket.on("permission", ({ qid, values, dataStore }) => {
+      console.log(qid);
+      console.log(values);
+      console.log(dataStore);
+      if ((qid, values, dataStore)) {
+        const { first_name, last_name } = values;
+        this.setState({
+          requestComponent: <Request data={{ qid, values, dataStore }} />
+        });
+      }
     });
-    return (
-      <div>
-        <Request />
-      </div>
-    );
+    return <div>{this.state.requestComponent}</div>;
   }
 }
 

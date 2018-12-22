@@ -43,7 +43,7 @@ app.post("/create", (req, res) => {
 app.post("/permission", (req, res) => {
   console.log("getting permission...");
   const { qid, values, dataStore } = req.body;
-  io.sockets.emit("permission", qid, values, dataStore);
+  io.sockets.emit("permission", { qid, values, dataStore });
 });
 app.post("/signIn", (req, res) => {
   // console.log(req);
