@@ -4,6 +4,7 @@ const port = 3000 || process.env.PORT;
 const GANACHE_PORT = 7545;
 const CONSUMER_ADDRESS = "0x051a6f09bda7D219f3cD53cC3Aede30D3308EA61";
 const Web3 = require("web3");
+const identity_connection = require("./IdentityAPI/identity_connection");
 const truffle_customer_connect = require("./connection/customer_app.js");
 const truffle_request_data_connect = require("./connection/data_request_app.js");
 const truffle_response_data_connect = require("./connection/data_response_app");
@@ -30,6 +31,10 @@ app.post("/requestData", (req, res) => {
 app.get("/usercount", (req, res) => {
   truffle_customer_connect.getUserCount();
   res.end();
+});
+app.post("/getAddress", (req, res) => {
+  // console.log(req);
+  identity_connection.getEthAddress(req.body.uniqueNumber);
 });
 app.listen(port, () => {
   // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)

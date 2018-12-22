@@ -5,23 +5,45 @@ const Web3 = require("web3");
 const OWNER_ADDRESS = "0x44a4c1fcaf21b9251ced63Ac1Aa79De020141Db5";
 const truffle_request_data_connect = require("./connection/data_request_app.js");
 const identity_connection = require("./IdentityAPI/identity_connection");
+//
+const http = require("http");
+const socketIO = require("socket.io");
+const cors = require("cors");
+//
 bodyParser = require("body-parser");
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3003");
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+//
+app.use(cors());
 
+// app.use(function(req, res, next) {
+//   res.header(
+//     "Access-Control-Allow-Origin",
+//     "http://localhost:3003",
+//     "http://localhost:5000"
+//   );
+//   res.header("Access-Control-Allow-Credentials", true);
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   next();
+// });
+// our server instance
+const server = http.createServer(app).listen(8001);
+
+// This creates our socket using the instance of the server
+const io = socketIO(server);
+//
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.post("/create", (req, res) => {
   const { uniqueNumber, password } = req.body;
   identity_connection.create({ uniqueNumber, password, res });
   res.end();
+});
+app.post("/permission", (req, res) => {
+  console.log("getting permission...");
+  const { qid, values, dataStore } = req.body;
+  io.sockets.emit("permission", qid, values, dataStore);
 });
 app.post("/signIn", (req, res) => {
   // console.log(req);

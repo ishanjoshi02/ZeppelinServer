@@ -11,17 +11,15 @@ class App extends Component {
       <Router>
         <div className="App">
           <Route
+            path="/home"
+            exact
+            render={() => {
+              return <OwnerHomePage />;
+            }}
+          />
+          <Route
             path="/"
             exact
-            strict
-            render={() => {
-              return <LoginPage />;
-            }}
-          />{" "}
-          <Route
-            path="/owner-home"
-            exact
-            strict
             render={() => {
               return <OwnerHomePage />;
             }}

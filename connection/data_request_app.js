@@ -3,6 +3,8 @@ const contract = require("truffle-contract");
 const RequestDataArtifact = require("../build/contracts/RequestData.json");
 const RequestDataContract = contract(RequestDataArtifact);
 const axios = require("axios");
+const http = require("http");
+const socketIO = require("socket.io");
 
 const StoreAPI = require("../Store/index");
 
@@ -19,15 +21,25 @@ module.exports = {
               if (err) {
                 console.error(err);
               } else {
-                const { qid, values } = JSON.parse(res.args.data);
+                const { qid, values, dataStore } = JSON.parse(res.args.data);
                 console.log("Request Data Owner" + JSON.stringify(res));
                 // console.log(data);
                 // send axios request containin the data
                 console.log(qid);
-                axios
-                  .post("http://localhost:5000/accepted", { qid, values })
-                  .then(res => console.log(res))
-                  .catch(e => console.error(e));
+                // Send to user
+                axios.post("http://localhost:5000/permission", {
+                  qid,
+                  values,
+                  dataStore
+                });
+                // axios
+                //   .post("http://localhost:5000/accepted", {
+                //     qid,
+                //     values,
+                //     dataStore
+                //   })
+                //   .then(res => console.log(res))
+                //   .catch(e => console.error(e));
 
                 // noti
               }
