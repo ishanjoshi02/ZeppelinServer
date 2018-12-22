@@ -38,6 +38,7 @@ module.exports = {
             let values = {};
             values.qid = res.args.qid.toNumber();
             values.rid = res.args.rid.toNumber();
+            console.log(res.args);
             switch (values.rid) {
               case 0: {
                 values.result = JSON.parse(res.args.result);

@@ -4,6 +4,7 @@ const port = 8000 || process.env.PORT;
 const Web3 = require("web3");
 const truffle_request_data_connect = require("./connection/data_request_app.js");
 const truffle_response_data_connect = require("./connection/data_response_app.js");
+const STORE_ADDRESS = "0x0C36C0a8880Fa75C7b08Df500Fe7b7B9375CFe23";
 bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -20,7 +21,7 @@ app.listen(port, () => {
     new Web3(new Web3.providers.HttpProvider(`http://localhost:${7545}`))
   );
   truffle_request_data_connect.setInstance({
-    account: "0x9b99Df0515830fabF1eeF93045239Bd729fdA67C",
+    account: STORE_ADDRESS,
     type: "store"
   });
   truffle_response_data_connect.setWeb3(

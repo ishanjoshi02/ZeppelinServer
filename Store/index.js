@@ -1,8 +1,8 @@
 const axios = require("axios");
-const ipfs = require("ipfs");
 const URL = "http://localhost:3004/data";
-const node = new ipfs();
 const fs = require("fs");
+const ipfsClient = require("ipfs-http-client");
+const ipfs = ipfsClient("localhost", "5001", { protocol: "http" });
 
 module.exports = {
   solve: ({ qid, values }) => {
@@ -57,15 +57,20 @@ module.exports = {
         axios
           .get(`${URL}?first_name=${first_name}&last_name=${last_name}`)
           .then(res => {
-            fs.readFile("dummy.jpg", (err, data) => {
-              writeData(data);
+            fs.readFile(`Store/dummy.txt`, (err, data) => {
+              if (err) {
+                console.log(err);
+                throw err;
+              }
+              const buffer = Buffer.from(data);
+              ipfs.add(buffer, {}, (err, res) => {
+                axios.post("http://localhost:8000/respond", {
+                  qid: qid,
+                  rid: 2,
+                  data: res[0].hash
+                });
+              });
             });
-
-            // axios.post("http://localhost:8000/respond", {
-            //   qid: qid,
-            //   rid: 2,
-            //   data: writeData()
-            // });
           });
         break;
       }
