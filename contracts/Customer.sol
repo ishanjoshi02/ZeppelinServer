@@ -42,7 +42,7 @@ contract Customer {
     }
 
     function compareStrings(string memory one, string memory two)
-    internal
+    public
     pure
     returns (bool)
     {
