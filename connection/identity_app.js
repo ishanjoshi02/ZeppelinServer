@@ -25,7 +25,8 @@ module.exports = {
             console.log(res);
             response.json(res);
           }
-        });
+        })
+        .catch(e => {});
     });
   },
   signIn: ({ address, publicKey, privateKey, response }) => {
@@ -37,11 +38,21 @@ module.exports = {
         })
         .then(res => {
           console.log(res);
-          response.set("Content-Type", "application/json");
           if (res) {
             response.send(res);
           }
-        });
+        })
+        .catch(e => {});
+    });
+  },
+  getEthAddress: uniqueNumber => {
+    IdentityContract.deployed().then(instance => {
+      instance
+        .getAddress(uniqueNumber, {
+          from: "0x9b99Df0515830fabF1eeF93045239Bd729fdA67C",
+          gas: 3000000
+        })
+        .then(res => console.log(res));
     });
   }
 };

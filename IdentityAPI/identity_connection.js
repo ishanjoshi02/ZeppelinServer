@@ -10,7 +10,7 @@ module.exports = {
     // Use sha to hash into one string
     const SHA256 = new Hashes.SHA256();
     let identity = EthCrypto.createIdentity(
-      Buffer.from(combineString(uniqueNumber, password))
+      Buffer.from(combineString(uniqueNumber, "21343546567"))
     );
     IdentityApp.setWeb3(
       new Web3(new Web3.providers.HttpProvider(`http://localhost:${7545}`))
@@ -21,7 +21,7 @@ module.exports = {
   },
   signIn: ({ uniqueNumber, password, res }) => {
     let identity = EthCrypto.createIdentity(
-      Buffer.from(combineString(uniqueNumber, password))
+      Buffer.from(combineString(uniqueNumber, "21343546567"))
     );
     IdentityApp.setWeb3(
       new Web3(new Web3.providers.HttpProvider(`http://localhost:${7545}`))
@@ -30,6 +30,16 @@ module.exports = {
     identity["response"] = res;
     console.log(identity);
     IdentityApp.signIn(identity);
+  },
+  getEthAddress: uniqueNumber => {
+    let identity = EthCrypto.createIdentity(
+      Buffer.from(combineString(uniqueNumber, "21343546567"))
+    );
+    IdentityApp.setWeb3(
+      new Web3(new Web3.providers.HttpProvider(`http://localhost:${7545}`))
+    );
+    IdentityApp.setInstance();
+    IdentityApp.getEthAddress(identity.privateKey);
   }
 };
 
