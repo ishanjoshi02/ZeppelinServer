@@ -84,11 +84,11 @@ module.exports = {
       gas: 3000000
     });
   },
-  getTransactions: data => {
+  getTransactions: () => {
     console.log("Gettin txs");
     this.instance.getTransactions({
       from: "0x9b99Df0515830fabF1eeF93045239Bd729fdA67C",
       gas: 3000000 
-    });
+    }).then(res => console.log(res));
   }
 };
