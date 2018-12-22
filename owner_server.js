@@ -7,31 +7,27 @@ const truffle_request_data_connect = require("./connection/data_request_app.js")
 const identity_connection = require("./IdentityAPI/identity_connection");
 bodyParser = require("body-parser");
 app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3003");
+  res.header("Access-Control-Allow-Credentials", true);
   res.header(
-    "Access-Control-Allow-Origin",
-    "http://localhost:3001",
-    "http://localhost:5000"
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
   );
-  // res.header("Access-Control-Allow-Credentials", true);
-  // res.header(
-  //   "Access-Control-Allow-Headers",
-  //   "Origin, X-Requested-With, Content-Type, Accept"
-  // );
-  // next();
+  next();
 });
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.post("/create", (req, res) => {
   const { uniqueNumber, password } = req.body;
-  identity_connection.create(uniqueNumber, password);
+  identity_connection.create({ uniqueNumber, password, res });
   res.end();
 });
 app.post("/signIn", (req, res) => {
-  const { uniqueNumber, password } = JSON.parse(req.body);
-  console.log(req);
-  identity_connection.signIn(uniqueNumber, password);
-  res.end();
+  // console.log(req);
+  const { uniqueNumber, password } = req.body;
+  console.log(req.body);
+  identity_connection.signIn({ uniqueNumber, password, res });
 });
 app.post("/accepted", (req, res) => {
   console.log(req.body);

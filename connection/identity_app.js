@@ -13,24 +13,35 @@ module.exports = {
     this.web3 = web3;
     IdentityContract.setProvider(this.web3.currentProvider);
   },
-  create: ({ address, publicKey, privateKey }) => {
+  create: ({ address, publicKey, privateKey, response }) => {
     IdentityContract.deployed().then(instance => {
       instance
         .createAccount(address, privateKey, publicKey, {
           from: "0x9b99Df0515830fabF1eeF93045239Bd729fdA67C",
           gas: 3000000
         })
-        .then(res => console.log(res));
+        .then(res => {
+          if (response) {
+            console.log(res);
+            response.json(res);
+          }
+        });
     });
   },
-  signIn: ({ address, publicKey, privateKey }) => {
+  signIn: ({ address, publicKey, privateKey, response }) => {
     IdentityContract.deployed().then(instance => {
       instance
         .signIn(address, privateKey, publicKey, {
           from: "0x9b99Df0515830fabF1eeF93045239Bd729fdA67C",
           gas: 3000000
         })
-        .then(res => console.log(res));
+        .then(res => {
+          console.log(res);
+          response.set("Content-Type", "application/json");
+          if (res) {
+            response.send(res);
+          }
+        });
     });
   }
 };

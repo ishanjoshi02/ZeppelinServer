@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "description": "Make API-Endpoints for Ethereum BlockChain",
   "scripts": {
-    "start": "concurrently --kill-others \"nodemon customer_server.js\" \"nodemon owner_server.js\" \"nodemon store_server.js\" \"json-server --watch db.json --port 3004\" \"cd owner_website && npm start\"",
+    "start": "concurrently --kill-others \"nodemon customer_server.js\" \"nodemon owner_server.js\" \"nodemon store_server.js\" \"json-server --watch db.json --port 3004\"",
     "test": "truffle test test/*"
   },
   "author": "Arvind & Pranav",

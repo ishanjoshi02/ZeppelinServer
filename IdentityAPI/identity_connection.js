@@ -6,26 +6,29 @@ const Hashes = require("jshashes");
 const IdentityApp = require("../connection/identity_app.js");
 
 module.exports = {
-  create: ({ uniqueNumber, password }) => {
+  create: ({ uniqueNumber, password, res }) => {
     // Use sha to hash into one string
     const SHA256 = new Hashes.SHA256();
-    const identity = EthCrypto.createIdentity(
+    let identity = EthCrypto.createIdentity(
       Buffer.from(combineString(uniqueNumber, password))
     );
     IdentityApp.setWeb3(
       new Web3(new Web3.providers.HttpProvider(`http://localhost:${7545}`))
     );
     IdentityApp.setInstance();
+    identity["response"] = res;
     IdentityApp.create(identity);
   },
-  signIn: ({ uniqueNumber, password }) => {
-    const identity = EthCrypto.createIdentity(
+  signIn: ({ uniqueNumber, password, res }) => {
+    let identity = EthCrypto.createIdentity(
       Buffer.from(combineString(uniqueNumber, password))
     );
     IdentityApp.setWeb3(
       new Web3(new Web3.providers.HttpProvider(`http://localhost:${7545}`))
     );
     IdentityApp.setInstance();
+    identity["response"] = res;
+    console.log(identity);
     IdentityApp.signIn(identity);
   }
 };

@@ -24,7 +24,7 @@ class LoginPage extends Component {
     e.preventDefault();
     console.log(this.state);
     const { uniqueId, password } = this.state;
-    // axios.post("/signIn", this.state).then(res => console.log(res));
+
     // axios({
     //   method: "post",
     //   url: "localhost:5000/signIn",
@@ -37,11 +37,11 @@ class LoginPage extends Component {
     // }).then(res => console.log(res));
     fetch("http://localhost:5000/signIn", {
       method: "POST",
-      body: JSON.stringify(this.state),
+      body: JSON.stringify({ uniqueNumber: uniqueId, password: password }),
       headers: {
         "Content-Type": "application/json"
       }
-    }).then(res => console.log(res));
+    }).then(res => {});
   };
 
   render() {
@@ -86,16 +86,16 @@ class LoginPage extends Component {
           </div>
 
           <Pane display="flex" alignItems="center" justifyContent="center">
-            {/* <Link to="/owner-home"> */}
-            <Button
-              appearance="primary"
-              intent="success"
-              margin={20}
-              onClick={this.handleLogIn}
-            >
-              LOGIN
-            </Button>
-            {/* </Link> */}
+            <Link to="/owner-home">
+              <Button
+                appearance="primary"
+                intent="success"
+                margin={20}
+                onClick={this.handleLogIn}
+              >
+                LOGIN
+              </Button>
+            </Link>
             {/* <Link to="/owner-register"> */}
             <Button appearance="primary" type="submit" margin={20}>
               REGISTER
