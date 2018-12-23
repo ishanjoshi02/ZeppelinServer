@@ -98,14 +98,17 @@ module.exports = {
   },
   getTransactions: () => {
     console.log("Gettin txs");
-    this.instance.getTransactions({
+    this.instance
+      .getTransactions({
+        from: "0x9b99Df0515830fabF1eeF93045239Bd729fdA67C",
+        gas: 3000000
+      })
+      .then(res => console.log(res));
+  },
+  storeTransaction: data => {
+    this.instance.storeTransaction(data, {
       from: "0x9b99Df0515830fabF1eeF93045239Bd729fdA67C",
-<<<<<<< HEAD
       gas: 3000000
     });
-=======
-      gas: 3000000 
-    }).then(res => console.log(res));
->>>>>>> 7f0920eb510895501879c9d09a11fa4f07ab1431
   }
 };

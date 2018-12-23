@@ -8,7 +8,8 @@ contract RequestData {
         address dataConsumer;
         string data;
     }
-    Transaction[] txs;
+    string[] txs;
+    // Transaction[] txs;
     mapping (string => uint) dataStores; //replace uint with endpoint?
     
     event requestDataOwner(address dataConsumer, string data);
@@ -26,7 +27,10 @@ contract RequestData {
 
     function acceptRequestAndForward(bool decision, string memory data) public {
         if (decision) {
-            emit requestDataStore(msg.sender, data);    
+            emit requestDataStore(msg.sender, data);  
+
+            storeTransaction(data);  
+            
         }
         else {
             emit requestDenied();
@@ -37,33 +41,18 @@ contract RequestData {
         emit requestDenied();
     }
 
-    function storeTransaction(address _dataOwner, address _dataConsumer, string memory _data)
-    public {
-        Transaction memory newTx;
-        newTx.dataOwner = _dataOwner;
-        newTx.dataConsumer = _dataConsumer;
-        newTx.data = _data;
-        txs.push(newTx);
+    function storeTransaction( string memory _data)
+    public
+    returns (string[] memory) {
+        txs.push(_data);
+        // return txs;
     }
 
     function getTransactions()
     public
     view
-    returns (address[] memory, address[] memory, string[] memory) {
-        address[] memory owner;
-        address[] memory consumer;
-        string[] memory data;
-        uint c = 0;
-        for (uint i = 0 ; i<txs.length ; i++) {
-            if (txs[i].dataOwner == msg.sender) {
-                owner[c] = txs[i].dataOwner;
-                consumer[c] = txs[i].dataConsumer;
-                data[c] = txs[i].data;
-                c++;
-            }
-        }
-
-        return (owner, consumer, data);
+    returns (string[] memory) {
+        return txs;
     }
 
 }

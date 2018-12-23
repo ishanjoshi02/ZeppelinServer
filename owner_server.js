@@ -45,6 +45,10 @@ app.post("/permission", (req, res) => {
   const { qid, values, dataStore } = req.body;
   io.sockets.emit("permission", { qid, values, dataStore });
 });
+app.get("/getTransactions", (req, res) => {
+  truffle_request_data_connect.getTransactions();
+  res.end();
+});
 app.post("/signIn", (req, res) => {
   // console.log(req);
   const { uniqueNumber, password } = req.body;
@@ -59,6 +63,7 @@ app.post("/accepted", (req, res) => {
 app.post("/denied", (req, res) => {
   console.log(req.body);
   truffle_request_data_connect.denyRequest(JSON.stringify(req.body));
+  // io.sockets.emit("permission", { qid, values, dataStore });
   res.end();
 });
 app.listen(port, () => {

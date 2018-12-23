@@ -36,7 +36,7 @@ class Request extends Component {
         elevation={2}
       >
         <Text color="neutral" margin={20}>
-          Request For {this.props.data.values.balance}
+          Request For {this.props.data.qid}
         </Text>
         <Text color="neutral" margin={20}>
           Data Store {this.props.data.dataStore}
